@@ -55,6 +55,9 @@ class CSV {
         const isAppend = fs.existsSync(path);
         return new Promise((resolve) => {
             const buffer = fs.createWriteStream(path, { flags: 'a' });
+            if (isAppend) {
+                buffer.write("\r\n");
+            }
             buffer.on('finish', resolve);
             const stream = csv.format({
                 delimiter: ",",

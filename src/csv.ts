@@ -40,6 +40,10 @@ class CSV {
     return new Promise((resolve): void => {
       const buffer = fs.createWriteStream(path, { flags: 'a' });
 
+      if (isAppend) {
+        buffer.write("\r\n");
+      }
+
       buffer.on('finish', resolve);
 
       const stream = csv.format({

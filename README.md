@@ -1,6 +1,6 @@
 # Sumário
 
-Este pacote é responsável pela pela leitura e escrita de arquivos CSV usados no Cliente de Integração Seedz.
+Este pacote é responsável pela leitura e escrita de arquivos CSV usados no Cliente de Integração Seedz.
 
 ## Pacotes dependentes:
 

@@ -22,8 +22,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const csv = __importStar(require("fast-csv"));
 const fs = __importStar(require("fs"));
 class CSV {
+    constructor(config) {
+        this.legacy = config;
+    }
     /**
-     *
      * @param {string} path
      * @param {CsvOptionsInterface} options
      * @returns {Promise<any>}
@@ -53,20 +55,32 @@ class CSV {
      */
     async write(path, data) {
         const isAppend = fs.existsSync(path);
-        return new Promise((resolve) => {
-            const buffer = fs.createWriteStream(path, { flags: 'a' });
-            if (isAppend) {
-                buffer.write("\r\n");
-            }
-            buffer.on('finish', resolve);
-            const stream = csv.format({
+        let format = {};
+        if (this.legacy === true) {
+            format = {
+                delimiter: ";",
+                escape: '"',
+                headers: isAppend ? false : Object.keys(data[0]),
+                writeHeaders: true,
+            };
+        }
+        else {
+            format = {
                 delimiter: ",",
                 escape: '"',
                 headers: isAppend ? false : Object.keys(data[0]),
                 quoteColumns: true,
                 quoteHeaders: true,
                 writeHeaders: true,
-            });
+            };
+        }
+        return new Promise((resolve) => {
+            const buffer = fs.createWriteStream(path, { flags: "a" });
+            if (isAppend) {
+                buffer.write("\r\n");
+            }
+            buffer.on("finish", resolve);
+            const stream = csv.format(format);
             stream.pipe(buffer);
             for (const entity of data) {
                 stream.write(entity);

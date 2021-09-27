@@ -1,7 +1,8 @@
 import { CsvOptionsInterface } from "sdz-agent-types";
 declare class CSV {
+    private legacy;
+    constructor(config: boolean);
     /**
-     *
      * @param {string} path
      * @param {CsvOptionsInterface} options
      * @returns {Promise<any>}

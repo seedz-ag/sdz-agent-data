@@ -22,9 +22,7 @@ class CSV {
         .pipe(
           csv.parse({
             headers: true,
-            skipRows: options.skipRows,
-            maxRows: options.maxRows,
-            delimiter: options.delimiter,
+            ...options,
           })
         )
         .on("data", (row) => result.push(row))

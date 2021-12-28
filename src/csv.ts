@@ -49,8 +49,9 @@ class CSV {
       }
       const size: number = fs.statSync(name).size / (1024 * 1024);
       if (size < this.fileSize) {
+        return name
+      } else {
         this.fileNameCache[path]++;
-        return this.generateName(path);
       }
     }
   }

@@ -24,7 +24,6 @@ class CSV {
     if (!this.fileNameCache[path]) {
       this.fileNameCache[path] = 0;
     }
-    this.fileNameCache[path]++;
     const file = path.split(/\.(?=[^\.]+$)/);
     const pad = `${this.pad}${this.fileNameCache[path]}`.slice(
       -this.pad.length
@@ -50,7 +49,8 @@ class CSV {
       }
       const size: number = fs.statSync(name).size / (1024 * 1024);
       if (size < this.fileSize) {
-        return name;
+        this.fileNameCache[path]++;
+        return this.generateName(path);
       }
     }
   }

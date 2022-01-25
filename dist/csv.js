@@ -117,8 +117,8 @@ class CSV {
      * @returns {Promise<void>}
      */
     async write(path, data) {
-        const isAppend = fs.existsSync(path);
         const file = this.getFile(path);
+        const isAppend = fs.existsSync(file);
         return new Promise((resolve) => {
             const buffer = fs.createWriteStream(file, { flags: "a" });
             if (isAppend) {

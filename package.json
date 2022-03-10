@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "fast-csv": "^4.3.6",
-    "sdz-agent-types": "https://github.com/seedz-ag/sdz-agent-types.git"
+    "sdz-agent-types": "https://github.com/seedz-ag/sdz-agent-types.git",
+    "typescript": "^4.6.2"
   },
   "devDependencies": {
     "@types/node": "^16.6.1"

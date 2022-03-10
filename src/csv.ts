@@ -113,6 +113,7 @@ class CSV {
   async write(path: string, data: any[]) {
     const file = this.getFile(path);
     const isAppend = fs.existsSync(file);
+    !isAppend && fs.writeFileSync(file, "");
     return new Promise((resolve) => {
       const buffer = fs.createWriteStream(file, { flags: "a" });
 

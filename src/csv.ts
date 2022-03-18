@@ -113,11 +113,17 @@ class CSV {
   async write(path: string, data: any[]) {
     const file = this.getFile(path);
     const isAppend = fs.existsSync(file);
-    !isAppend && fs.writeFileSync(file, "");
+
+    !isAppend && await fs.writeFileSync(file, "");
+
     return new Promise((resolve) => {
+      
       const buffer = fs.createWriteStream(file, { flags: "a" });
 
+      let headers:any = false;
+      
       if (isAppend) {
+        headers = Object.keys(data[0])
         buffer.write("\r\n");
       }
 
@@ -125,7 +131,7 @@ class CSV {
 
       const stream = csv.format({
         ...this.getFormat(),
-        headers: isAppend ? false : Object.keys(data[0]),
+        headers,
       });
 
       stream.pipe(buffer);

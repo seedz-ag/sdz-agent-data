@@ -123,16 +123,18 @@ class CSV {
     async write(path, data) {
         const file = this.getFile(path);
         const isAppend = fs.existsSync(file);
-        !isAppend && fs.writeFileSync(file, "");
+        !isAppend && await fs.writeFileSync(file, "");
         return new Promise((resolve) => {
             const buffer = fs.createWriteStream(file, { flags: "a" });
+            let headers = false;
             if (isAppend) {
+                headers = Object.keys(data[0]);
                 buffer.write("\r\n");
             }
             buffer.on("finish", resolve);
             const stream = csv.format({
                 ...this.getFormat(),
-                headers: isAppend ? false : Object.keys(data[0]),
+                headers,
             });
             stream.pipe(buffer);
             for (const entity of data) {
